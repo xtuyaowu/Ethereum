@@ -14,4 +14,7 @@ public interface HelloWorldInterface {
 
     // set
     public RemoteCall<TransactionReceipt> set(int x);
+
+    // set
+    public RemoteCall<TransactionReceipt> addUser(String address);
 }

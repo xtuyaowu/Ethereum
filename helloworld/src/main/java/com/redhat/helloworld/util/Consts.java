@@ -40,4 +40,6 @@ public class Consts {
     public static String DIRECTORY = p.getProperty("directory");
     // 合约地址
     public static String HELLOWORLD_ADDR = p.getProperty("helloworldAddr");
+    public static String pb0dAddr = p.getProperty("pb0dAddr");
+
 }
