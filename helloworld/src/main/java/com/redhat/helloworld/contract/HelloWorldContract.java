@@ -5,6 +5,7 @@ import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
@@ -91,9 +92,31 @@ public class HelloWorldContract extends Contract implements HelloWorldInterface 
     }
 
     @Override
-    public RemoteCall<TransactionReceipt> addUser(String address) {
-        Function function = new Function("addUser", Arrays.<Type>asList(new Address(address)),
+    public RemoteCall<TransactionReceipt> addUser(String userAddress) {
+        Function function = new Function("addUser", Arrays.<Type>asList(new Address(userAddress)),
                 Arrays.<TypeReference<?>>asList());
         return executeRemoteCallTransaction(function);
     }
+
+    @Override
+    public RemoteCall<TransactionReceipt> resumeUploadTask(String userAddress, int _taskId, String _describe, int rewardAmount) {
+        Function function = new Function("resumeUploadTask", Arrays.<Type>asList(new Address(userAddress),
+                new Uint256(_taskId), new Utf8String(_describe), new Uint256(rewardAmount)),
+                Arrays.<TypeReference<?>>asList());
+        return executeRemoteCallTransaction(function);
+    }
+
+    @Override
+    public RemoteCall<TransactionReceipt> pay(String userAddress) {
+        Function function = new Function("pay", Arrays.<Type>asList(new Address(userAddress)),
+                Arrays.<TypeReference<?>>asList());
+        return executeRemoteCallTransaction(function);
+    }
+
+    @Override
+    public RemoteCall<Uint256> queryUserBalanceOf(String userAddress) {
+        Function function = new Function("queryUserBalanceOf", Arrays.<Type>asList(new Address(userAddress)),
+                Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {
+                }));
+        return executeRemoteCallSingleValueReturn(function);    }
 }

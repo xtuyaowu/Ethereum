@@ -15,6 +15,17 @@ public interface HelloWorldInterface {
     // set
     public RemoteCall<TransactionReceipt> set(int x);
 
-    // set
-    public RemoteCall<TransactionReceipt> addUser(String address);
+
+
+    // 账户加入合约
+    public RemoteCall<TransactionReceipt> addUser(String userAddress);
+
+    // 上传简历
+    public RemoteCall<TransactionReceipt> resumeUploadTask(String userAddress, int _taskId, String _describe, int rewardAmount);
+
+    // 转币
+    public RemoteCall<TransactionReceipt> pay(String userAddress);
+
+    // 查询用户代币余额
+    public RemoteCall<Uint256> queryUserBalanceOf(String userAddress);
 }

@@ -8,6 +8,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 
+import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -41,37 +42,34 @@ public class HelloWorldMain {
                 Consts.GAS_PRICE, Consts.GAS_LIMIT);
         System.out.println("getContractAddress : " + loadContract.getContractAddress());
 
-        ////////// 同步请求方式 //////////
-        // set
-/*        TransactionReceipt transactionReceipt = loadContract.set(30000).send();
-        System.out.println("waiting..."); // 进入阻塞
-        System.out.println("set : " + transactionReceipt.getTransactionHash());*/
+        ////////// 正式调用合约 //////////
+        // 一、创建钱包用户 + 用户加入合约
+        // 1、创建钱包用户
+        // String password, File destinationDirectory, boolean useFullScrypt Consts.PASSWORD
+/*        String fileName = WalletUtils.generateNewWalletFile("ACCOUNT3", new File(Consts.DIRECTORY), true);
+        System.out.println(fileName);// 文件钱包名称*/
 
-        // get
-/*        Uint256 result = loadContract.get().send();
-        System.out.println("waiting..."); // 进入阻塞
-        System.out.println("get : " + result.getValue().intValue());*/
-
-
-        ////////// 异步请求方式 //////////
-        // set
-/*        CompletableFuture<TransactionReceipt> transactionReceiptAsync = loadContract.set(10000).sendAsync();
+        // 2、用户加入合约
+/*        CompletableFuture<TransactionReceipt> transactionReceiptAsync = loadContract.addUser("0xDf32D54e24f9A3df2483e1E9489937D159EC33C1").sendAsync();
         System.out.println("waiting..."); // 马上返回
         System.out.println("set : " + transactionReceiptAsync.get().getTransactionHash());*/
 
-        // get
-        /*
-        CompletableFuture<Uint256> resultAsync = loadContract.get().sendAsync();
+
+        // 二、上传简历
+        CompletableFuture<TransactionReceipt> transactionResumeUploadTaskReceiptAsync = loadContract.resumeUploadTask("0xDf32D54e24f9A3df2483e1E9489937D159EC33C1", 3, "task3", 300).sendAsync();
+        System.out.println("waiting..."); // 马上返回
+        System.out.println("set : " + transactionResumeUploadTaskReceiptAsync.get().getTransactionHash());
+
+
+        //三、 转币
+        CompletableFuture<TransactionReceipt> transactionPayReceiptAsync = loadContract.pay("0xDf32D54e24f9A3df2483e1E9489937D159EC33C1").sendAsync();
+        System.out.println("waiting..."); // 马上返回
+        System.out.println("set : " + transactionPayReceiptAsync.get().getTransactionHash());
+
+        //四、 查询用户代币余额
+        CompletableFuture<Uint256> resultAsync = loadContract.queryUserBalanceOf("0xDf32D54e24f9A3df2483e1E9489937D159EC33C1").sendAsync();
         System.out.println("waiting..."); // 马上返回
         System.out.println("get : " + resultAsync.get().getValue().intValue());
-        */
 
- /*       TransactionReceipt transactionReceipt = loadContract.addUser("0xF2D9841560838d92e42670153e0a5aea90176f43").send();
-        System.out.println("waiting..."); // 进入阻塞
-        System.out.println("set : " + transactionReceipt.getTransactionHash());*/
-
-        CompletableFuture<TransactionReceipt> transactionReceiptAsync = loadContract.addUser("0x775597a534bd52550B23af446c93ea3b755B6c07").sendAsync();
-        System.out.println("waiting..."); // 马上返回
-        System.out.println("set : " + transactionReceiptAsync.get().getTransactionHash());
     }
 }
